@@ -1,0 +1,6 @@
+{
+  "integer field": 7,
+  "string array field": [
+    "VALUE1","VALUE2"
+  ]
+}

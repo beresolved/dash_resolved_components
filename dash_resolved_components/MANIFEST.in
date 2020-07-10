@@ -1,0 +1,7 @@
+include dash_resolved_components/dash_resolved_components.min.js
+include dash_resolved_components/dash_resolved_components.min.js.map
+include dash_resolved_components/metadata.json
+include dash_resolved_components/package-info.json
+include README.md
+include LICENSE
+include package.json

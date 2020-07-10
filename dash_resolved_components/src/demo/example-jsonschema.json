@@ -1,0 +1,28 @@
+{
+  "title": "Example",
+  "type": "object",
+  "required": [
+    "integer field",
+    "string array field"
+  ],
+  "properties": {
+    "integer field": {
+      "type": "integer",
+      "description": "Example of rendering of integer field input with validation",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 7
+    },
+    "string array field": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "VALUE1",
+          "VALUE2",
+          "VALUE3"
+        ]
+      }
+    }
+  }
+}

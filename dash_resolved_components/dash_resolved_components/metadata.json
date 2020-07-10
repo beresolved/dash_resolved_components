@@ -1,0 +1,91 @@
+{
+  "src/lib/components/JsonSchemaForm.react.js": {
+    "description": "JsonSchemaForm makes react-jsonshcema-forms usable for dash. It allows to render a form (layout components) based on\na json schema. Formdata is changeable and accessible. Optionally a json ui schema can be used to tweak the layout.",
+    "displayName": "JsonSchemaForm",
+    "methods": [
+      {
+        "name": "onSubmit",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "{formData}",
+            "type": null
+          },
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "schema": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A valid json schema",
+        "defaultValue": {
+          "value": "{}",
+          "computed": false
+        }
+      },
+      "uischema": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "An optional ui-schema json object in case we want to render components differently",
+        "defaultValue": {
+          "value": "{}",
+          "computed": false
+        }
+      },
+      "formData": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "formData valid for the provided json schema",
+        "defaultValue": {
+          "value": "{}",
+          "computed": false
+        }
+      },
+      "onSubmit": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Return the data to the formData on using the onSubmit button"
+      },
+      "n_clicks": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Contains the number of clicks on the form submit button",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      }
+    }
+  }
+}
