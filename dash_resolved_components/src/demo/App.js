@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import { JsonSchemaForm } from '../lib';
 
-// some test stuff coming from PZ - need to change this
+// some test stuff
 const initialData = require('./example-formdata.json');
 const initialSchema = require('./example-jsonschema.json');
 

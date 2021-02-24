@@ -1,0 +1,29 @@
+{
+  "title": "Vereisten of constraints",
+  "description": "Hier kan je de vereisten aanpassen",
+  "type": "object",
+   "Transitions": {
+      "type": "array",
+      "items": {
+        "title": "TRANSITIE",
+        "type": "object",
+        "properties": {
+          "From": {
+            "title": "van",
+            "type":"string",
+            "enum":["vroeg","laat","nacht"]
+          },
+          "To": {
+            "title": "naar",
+            "type": "string",
+            "enum":["vroeg","laat","nacht"]
+          },
+          "Off": {
+            "title": "vrij tussenin?",
+            "type": "boolean"
+          }
+        }
+      }
+   }
+}
+

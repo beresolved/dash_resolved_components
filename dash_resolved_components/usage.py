@@ -1,52 +1,75 @@
 import dash_resolved_components
 import dash
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_html_components as html
+import dash_core_components as dcc
 import dash_bootstrap_components as dbc
+import base64
+import io
+import json
 
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP,"https://use.fontawesome.com/releases/v5.6.3/css/all.css"])
+app = dash.Dash(suppress_callback_exceptions=True,external_stylesheets=[dbc.themes.BOOTSTRAP,"https://use.fontawesome.com/releases/v5.6.3/css/all.css"])
 
-schema = {
-  "title": "Example",
-  "type": "object",
-  "required": [
-    "integerfield",
-    "string array field"
-  ],
-  "properties": {
-    "integerfield": {
-        "title": "A plain number",
-      "type": "integer",
-      "description": "Example of rendering of integer field input with validation",
-      "minimum": 1,
-      "maximum": 20
-    },
-    "string array field": {
-      "type": "array",
-      "title": "A list of strings",
-      "items": {
-        "type": "string",
-        "default": "bazinga"
-      }
-    }
-  }
-}
-
-uischema = {
-    "integerfield": {
-        "ui:widget": "slider"
-  }
-}
 
 app.layout = html.Div([
-    dash_resolved_components.JsonSchemaForm(
-        id='input',
-        schema=schema,
-        uischema=uischema,
-        formData={"integerfield":5,"string array field":['VALUE1']}
-    ),
+    dcc.Store(id='data-store',storage_type='session'),
+    dcc.Upload(id='jsonschema-upload',children=html.Div([
+            'Drag and Drop or ',
+            html.A('Select File')
+        ]),
+        style={
+            'width': '100%',
+            'height': '60px',
+            'lineHeight': '60px',
+            'borderWidth': '1px',
+            'borderStyle': 'dashed',
+            'borderRadius': '5px',
+            'textAlign': 'center',
+            'margin': '10px'
+        }),
+    html.Div(id='schemaform'),
     html.Div(id='output')
 ])
+def parse_contents(contents, filename):
+
+    content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string)
+    try:
+        if 'json' in filename:
+            data=json.load(io.StringIO(decoded.decode('utf-8')))
+        else:
+            data=None
+        return data
+    except Exception as e:
+        print(e)
+        return html.Div(['Error processing {}'.format(filename)])
+
+@app.callback(Output('schemaform','children'),
+              [Input('data-store','data')])
+def create_schema_form(data):
+    if data is not None:
+        schema = data
+    else:
+        schema = {
+          "title": "Please upload a valid json schema",
+
+        }
+
+    return dash_resolved_components.JsonSchemaForm(
+        id='input',
+        schema=schema,
+        uischema={},
+        formData={}
+    )
+
+@app.callback(Output('data-store','data'),
+              [Input('jsonschema-upload','contents')],
+              [State('jsonschema-upload','filename')])
+def update_data_store(content, filename):
+    if content is not None:
+        return parse_contents(content,filename)
+    else:
+        return None
 
 @app.callback(Output('output', 'children'),
               [Input('input', 'formData'),
@@ -54,7 +77,6 @@ app.layout = html.Div([
 def display_output(data, nclicks):
     response = html.Div([
         dbc.Alert('You submitted the form {} times'.format(nclicks)),
-        dbc.Alert('Last submission you asked for {} of each {}'.format(data['integerfield'],data['string array field']))
     ])
     return response
 
